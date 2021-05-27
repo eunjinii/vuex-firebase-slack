@@ -5,6 +5,7 @@ import App from "./App";
 import router from "./router";
 import store from "./store";
 import firebase from "firebase/app";
+import auth from "firebase/auth";
 import "firebase/storage";
 import "firebase/analytics";
 
@@ -29,10 +30,16 @@ firebase.analytics();
 
 window.firebase = firebase;
 
-new Vue({
-  el: "#app",
-  router,
-  store,
-  components: { App },
-  template: "<App/>"
+const unsubscribe = firebase.auth().onAuthStateChanged(user => {
+  store.dispatch("setUser", user);
+
+  new Vue({
+    el: "#app",
+    router,
+    store,
+    components: { App },
+    template: "<App/>"
+  });
+
+  unsubscribe();
 });
