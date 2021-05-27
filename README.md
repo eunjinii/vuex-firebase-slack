@@ -1,6 +1,18 @@
-# slack
+# Slack clone project
 
-> A Vue.js project
+> A Vue.js project with Vuex and Firebase
+
+## Main Features
+
+- Authentication with Google and Twitter
+- Easy integration of VueX with Vue.js
+- Flexible firebase realtime database
+- Channels and Private messaging
+- Image Upload
+- Application scalability
+- Writing custom database rules
+- Users online/offline status
+- Notification
 
 ## Build Setup
 
@@ -19,3 +31,8 @@ npm run build --report
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+## Notice
+
+This content is based on the lecture <Vue Vuex Firebase Messaging App (Slack Clone)> by Ryan Dhungel @Udemy.
+This project is built for studying, not for commercial purpose.
