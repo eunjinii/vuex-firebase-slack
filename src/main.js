@@ -3,6 +3,9 @@
 import Vue from "vue";
 import App from "./App";
 import router from "./router";
+import firebase from "firebase/app";
+import "firebase/storage";
+import "firebase/analytics";
 /* eslint-disable no-new */
 
 Vue.config.productionTip = false;
