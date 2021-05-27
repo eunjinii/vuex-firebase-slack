@@ -7,7 +7,10 @@
     <div class="container-fluid">
       <div class="row mt-5 ">
         <div class="col text-center">
-          <button class="btn btn-outline-danger btn-lg">
+          <button
+            @click="loginWithGoogle"
+            class="btn btn-outline-danger btn-lg"
+          >
             Login with Google
           </button>
         </div>
@@ -24,8 +27,20 @@
 </template>
 
 <script>
+import auth from "firebase/auth";
+
 export default {
-  name: "Login"
+  name: "Login",
+  methods: {
+    loginWithGoogle() {
+      firebase
+        .auth()
+        .signInWithPopup(new firebase.auth.GoogleAuthProvider())
+        .then(res => {
+          console.log(res.user);
+        });
+    }
+  }
 };
 </script>
 
