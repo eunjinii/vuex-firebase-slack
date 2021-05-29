@@ -39,14 +39,15 @@
 </template>
 
 <script>
-import auth from "firebase/auth";
+import databse from "firebase/database";
 
 export default {
   name: "Login",
   data() {
     return {
       errors: [],
-      loading: false
+      loading: false,
+      usersRef: firebase.database().ref('users')
     };
   },
   computed: {
@@ -62,6 +63,7 @@ export default {
         .auth()
         .signInWithPopup(new firebase.auth.GoogleAuthProvider())
         .then(res => {
+          this.saveUserToUsersRef(res.user)
           this.$store.dispatch("setUser", res.user);
           this.$router.push("/");
         })
@@ -69,6 +71,13 @@ export default {
           this.errors.push(e.message);
           this.loading = false;
         });
+    },
+
+    saveUserToUsersRef(user){
+      return this.usersRef.child(user.uid).set({
+        name: user.displayName,
+        avatar: user.photoURL,
+      })
     }
   },
   mounted(){
