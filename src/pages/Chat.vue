@@ -3,9 +3,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-4 sidebar">
-          <h2 class="text-light">#SLACK#</h2>
-          <hr style="border: 1px solid #ccc;">
-          <button @click="logout" class="btn btn-outline-light">Logout</button>
+          <Sidebar />
         </div>
 
         <div class="col-me-8 content">
@@ -17,20 +15,18 @@
 </template>
 
 <script>
+import Sidebar from "../sidebar/Sidebar";
+
 export default {
   name: "Chat",
-  methods:{
-    logout() {
-      firebase.auth().signOut()
-      this.$store.dispatch('setUser', null)
-      this.$router.push('/login')
-    }
+  components: {
+    Sidebar
   }
 };
 </script>
 
 <style scoped>
-.sidebar{
+.sidebar {
   padding-top: 2em;
   display: block;
   float: left;
@@ -38,14 +34,13 @@ export default {
   width: 33.5%;
   height: 100%;
   background: #000;
-overflow: scroll;
+  overflow: scroll;
 }
 
 .content {
   margin-left: 34%;
   display: block;
   float: left;
-  width: 66%
-  
+  width: 66%;
 }
 </style>

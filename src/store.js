@@ -4,12 +4,19 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 
 const state = {
-  currentUser: {}
+  currentUser: {},
+  isOpenAddChannelModal: false
 };
 
 const mutations = {
   SET_USER(state, user) {
     state.currentUser = user;
+  },
+  OPEN_ADD_CHANNEL_MODAL(state) {
+    state.isOpenAddChannelModal = true;
+  },
+  CLOSE_ADD_CHANNEL_MODAL(state) {
+    state.isOpenAddChannelModal = false;
   }
 };
 
