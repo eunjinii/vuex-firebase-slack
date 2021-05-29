@@ -10,7 +10,7 @@
 
     <!-- show errors -->
     <div class="alert alert-danger" v-if="hasErrors">
-      <div v-for="error in errors">{{ errors }}</div>
+      <div v-for="(error, index) in errors" :key="index">{{ errors }}</div>
     </div>
 
     <div class="container-fluid">
@@ -26,7 +26,10 @@
       </div>
       <div class="row mt-5">
         <div class="col text-center">
-          <button class="btn btn-outline-info btn-lg">
+          <button 
+            @click="loginWithGoogle" 
+            class="btn btn-outline-info btn-lg"
+          >
             Login with Twitter
           </button>
         </div>
@@ -67,6 +70,10 @@ export default {
           this.loading = false;
         });
     }
+  },
+  mounted(){
+    console.log('name : ' + firebase.auth().currentUser.displayName)
+    console.log('email :' + firebase.auth().currentUser.email)
   }
 };
 </script>

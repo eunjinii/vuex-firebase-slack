@@ -4,6 +4,7 @@ import Vue from "vue";
 import App from "./App";
 import router from "./router";
 import store from "./store";
+// node modules 에서 가져오는 경우에는 path를 지정해주지 않아도 된다. 
 import firebase from "firebase/app";
 import auth from "firebase/auth";
 import "firebase/storage";
@@ -15,7 +16,7 @@ Vue.config.productionTip = false;
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-var firebaseConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyBp6hFdmDXuEXfl7HadcHtEQVlaXhDf9NE",
   authDomain: "vuex-firebase-slack.firebaseapp.com",
   projectId: "vuex-firebase-slack",
@@ -28,6 +29,8 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 
+// make firebase available in windows object
+// so we dont need to import firebase on each components
 window.firebase = firebase;
 
 const unsubscribe = firebase.auth().onAuthStateChanged(user => {
