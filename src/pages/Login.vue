@@ -79,10 +79,6 @@ export default {
         avatar: user.photoURL,
       })
     }
-  },
-  mounted(){
-    console.log('name : ' + firebase.auth().currentUser.displayName)
-    console.log('email :' + firebase.auth().currentUser.email)
   }
 };
 </script>
