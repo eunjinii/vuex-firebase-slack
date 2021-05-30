@@ -1,6 +1,10 @@
 <template>
   <div>
-    <button @click="openModal" class="btn btn-outline-primary">
+    <button
+      v-b-modal="'my-modal'"
+      @click="OPEN_ADD_CHANNEL_MODAL"
+      class="btn btn-outline-primary"
+    >
       Add Channel
     </button>
 
@@ -8,7 +12,8 @@
     <div
       id="channelModal"
       class="modal fade"
-      :class="{ isOpened: isOpenAddChannelModal }"
+      :class="{ 'modal-open': isOpenAddChannelModal }"
+      v-if="isOpenAddChannelModal"
     >
       <div class="modal-dialog modal-dialog-centerd">
         <div class="modal-content">
@@ -66,6 +71,7 @@ export default {
     ...mapMutations(["OPEN_ADD_CHANNEL_MODAL", "CLOSE_ADD_CHANNEL_MODAL"]),
     openModal() {
       this.OPEN_ADD_CHANNEL_MODAL();
+      console.log(this.isOpenAddChannelModal);
     },
     closeModal() {
       this.CLOSE_ADD_CHANNEL_MODAL();
@@ -75,7 +81,7 @@ export default {
 </script>
 
 <style scoped>
-.isOpened {
+/* .isOpened {
   display: block;
-}
+} */
 </style>
