@@ -18,9 +18,7 @@
       <div class="modal-dialog modal-dialog-centerd">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title text-dark">
-              Modal title
-            </h5>
+            <h5 class="modal-title text-dark">Modal title</h5>
             <button
               type="button"
               class="btn-close"
@@ -65,18 +63,18 @@ import { mapState, mapMutations } from "vuex";
 export default {
   name: "Channels",
   computed: {
-    ...mapState(["isOpenAddChannelModal"])
+    ...mapState(["isOpenAddChannelModal"]),
   },
   methods: {
     ...mapMutations(["OPEN_ADD_CHANNEL_MODAL", "CLOSE_ADD_CHANNEL_MODAL"]),
     openModal() {
       this.OPEN_ADD_CHANNEL_MODAL();
-      console.log(this.isOpenAddChannelModal);
+      // console.log(this.isOpenAddChannelModal);
     },
     closeModal() {
       this.CLOSE_ADD_CHANNEL_MODAL();
-    }
-  }
+    },
+  },
 };
 </script>
 
