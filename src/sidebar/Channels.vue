@@ -1,20 +1,16 @@
 <template>
   <div>
     <button
-      v-b-modal="'my-modal'"
-      @click="OPEN_ADD_CHANNEL_MODAL"
+      type="button"
+      data-bs-toggle="modal"
+      data-bs-target="#myModal"
       class="btn btn-outline-primary"
     >
       Add Channel
     </button>
 
     <!-- Modal -->
-    <div
-      id="channelModal"
-      class="modal fade"
-      :class="{ 'modal-open': isOpenAddChannelModal }"
-      v-if="isOpenAddChannelModal"
-    >
+    <div id="myModal" class="modal fade">
       <div class="modal-dialog modal-dialog-centerd">
         <div class="modal-content">
           <div class="modal-header">
@@ -62,24 +58,7 @@ import { mapState, mapMutations } from "vuex";
 
 export default {
   name: "Channels",
-  computed: {
-    ...mapState(["isOpenAddChannelModal"]),
-  },
-  methods: {
-    ...mapMutations(["OPEN_ADD_CHANNEL_MODAL", "CLOSE_ADD_CHANNEL_MODAL"]),
-    openModal() {
-      this.OPEN_ADD_CHANNEL_MODAL();
-      // console.log(this.isOpenAddChannelModal);
-    },
-    closeModal() {
-      this.CLOSE_ADD_CHANNEL_MODAL();
-    },
-  },
 };
 </script>
 
-<style scoped>
-/* .isOpened {
-  display: block;
-} */
-</style>
+<style scoped></style>
