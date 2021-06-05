@@ -7,7 +7,7 @@
         </div>
 
         <div class="col-me-8 content">
-          content
+          <Messages />
         </div>
       </div>
     </div>
@@ -16,11 +16,13 @@
 
 <script>
 import Sidebar from "../sidebar/Sidebar";
+import Messages from "../messages/Messages";
 
 export default {
   name: "Chat",
   components: {
-    Sidebar
+    Sidebar,
+    Messages
   }
 };
 </script>
