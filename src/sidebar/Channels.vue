@@ -4,6 +4,16 @@
       Add Channel
     </button>
 
+    <div class="mt-4">
+      <button
+        v-for="(channel, index) in channels"
+        :key="index"
+        class="list-group-item list-group-item-action"
+      >
+        {{ channel.name }}
+      </button>
+    </div>
+
     <!-- Modal -->
     <div id="channelModal" class="modal fade">
       <div class="modal-dialog modal-dialog-centerd">
@@ -77,7 +87,8 @@ export default {
     return {
       new_channel: "",
       errors: [],
-      channelsRef: firebase.database().ref("channels")
+      channelsRef: firebase.database().ref("channels"),
+      channels: []
     };
   },
   computed: {
@@ -98,13 +109,11 @@ export default {
     closeModal() {
       // FIXME: 닫기 로직 완성
       this.CLOSE_ADD_CHANNEL_MODAL();
-      // channelModalRef.hide();
-      console.log("closed");
     },
     addChannel() {
+      this.errors = [];
       // get key to the newly creating channel
       let key = this.channelsRef.push().key;
-      console.log(key);
 
       // minimun info needed to create a new channel
       let newChannel = { id: key, name: this.new_channel };
@@ -119,7 +128,20 @@ export default {
         .catch(e => {
           this.errors.push(e.message);
         });
-    }
+    },
+    addListeners() {
+      this.channelsRef.on("child_added", snapshot => {
+        // firebase listens for changes
+        this.channels.push(snapshot.val());
+      });
+    },
+    detachListeners() {}
+  },
+  mounted() {
+    this.addListeners();
+  },
+  beforeDestroy() {
+    this.detachListeners();
   }
 };
 </script>
