@@ -1,12 +1,6 @@
 <template>
   <div>
-    <button
-      type="button"
-      data-bs-toggle="modal"
-      data-bs-target="#channelModal"
-      class="btn btn-outline-primary"
-      @click="openModal"
-    >
+    <button type="button" class="btn btn-outline-primary" @click="openModal">
       Add Channel
     </button>
 
@@ -21,19 +15,31 @@
               class="btn-close"
               data-bs-dismiss="modal"
               aria-label="Close"
-            ></button>
+            >
+              <!-- <span aria-hidden="true">&times;</span> -->
+            </button>
           </div>
 
           <div class="modal-body">
             <form>
               <div class="form-group">
                 <input
+                  v-model="new_channel"
                   type="text"
                   id="new_channel"
                   name="new_channel"
                   placeholder="Channel name"
                   class="form-control"
                 />
+                <ul class="list-group" v-if="hasErrors">
+                  <li
+                    class="list-group-item text-danger"
+                    v-for="(error, index) in errors"
+                    :key="index"
+                  >
+                    {{ error }}
+                  </li>
+                </ul>
               </div>
             </form>
           </div>
@@ -49,6 +55,7 @@
             <button
               type="button"
               class="btn btn-primary"
+              @click="addChannel"
               data-bs-dismiss="modal"
             >
               Add Channel
@@ -61,20 +68,67 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import database from "firebase/database";
+import { mapMutations, mapState } from "vuex";
 
 export default {
   name: "Channels",
   data() {
     return {
       new_channel: "",
-      errors: []
+      errors: [],
+      channelsRef: firebase.database().ref("channels")
     };
   },
-  computed: {},
-  methods: {}
+  computed: {
+    ...mapState(["isOpenAddChannelModal"]),
+    hasErrors() {
+      return this.errors.length > 0;
+    }
+  },
+  methods: {
+    ...mapMutations(["OPEN_ADD_CHANNEL_MODAL", "CLOSE_ADD_CHANNEL_MODAL"]),
+    openModal() {
+      const channelModal = new bootstrap.Modal(
+        document.getElementById("channelModal")
+      );
+      this.OPEN_ADD_CHANNEL_MODAL();
+      channelModal.show();
+    },
+    closeModal() {
+      // FIXME: 닫기 로직 완성
+      this.CLOSE_ADD_CHANNEL_MODAL();
+      // channelModalRef.hide();
+      console.log("closed");
+    },
+    addChannel() {
+      // get key to the newly creating channel
+      let key = this.channelsRef.push().key;
+      console.log(key);
+
+      // minimun info needed to create a new channel
+      let newChannel = { id: key, name: this.new_channel };
+
+      this.channelsRef
+        .child(key)
+        .update(newChannel)
+        .then(() => {
+          this.new_channel = "";
+          this.closeModal();
+        })
+        .catch(e => {
+          this.errors.push(e.message);
+        });
+    }
+  }
 };
 </script>
+
+<style lang="scss" scoped>
+.list-group {
+  margin: 12px 0;
+}
+</style>
 
 <style>
 .modal-backdrop {
