@@ -9,6 +9,8 @@
         v-for="(channel, index) in channels"
         :key="index"
         class="list-group-item list-group-item-action"
+        :class="{ active: setActiveChannel(channel) }"
+        @click="changeChannel(channel)"
       >
         {{ channel.name }}
       </button>
@@ -79,7 +81,7 @@
 
 <script>
 import database from "firebase/database";
-import { mapMutations, mapState } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "Channels",
@@ -88,27 +90,26 @@ export default {
       new_channel: "",
       errors: [],
       channelsRef: firebase.database().ref("channels"),
-      channels: []
+      channels: [],
+      channel: null
     };
   },
   computed: {
-    ...mapState(["isOpenAddChannelModal"]),
+    ...mapGetters(["currentChannel"]),
     hasErrors() {
       return this.errors.length > 0;
     }
   },
   methods: {
-    ...mapMutations(["OPEN_ADD_CHANNEL_MODAL", "CLOSE_ADD_CHANNEL_MODAL"]),
+    ...mapActions(["setCurrentChannel"]),
     openModal() {
       const channelModal = new bootstrap.Modal(
         document.getElementById("channelModal")
       );
-      this.OPEN_ADD_CHANNEL_MODAL();
       channelModal.show();
     },
     closeModal() {
       // FIXME: 닫기 로직 완성
-      this.CLOSE_ADD_CHANNEL_MODAL();
     },
     addChannel() {
       this.errors = [];
@@ -129,13 +130,27 @@ export default {
           this.errors.push(e.message);
         });
     },
+    setActiveChannel(channel) {
+      return channel.id === this.currentChannel.id;
+    },
+    changeChannel(channel) {
+      this.setCurrentChannel(channel);
+    },
     addListeners() {
       this.channelsRef.on("child_added", snapshot => {
         // firebase listens for changes
         this.channels.push(snapshot.val());
+
+        //set current channel
+        if (this.channels.length > 0) {
+          this.channel = this.channels[0];
+          this.setCurrentChannel(this.channel);
+        }
       });
     },
-    detachListeners() {}
+    detachListeners() {
+      this.channelsRef.off();
+    }
   },
   mounted() {
     this.addListeners();
