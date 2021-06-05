@@ -3,14 +3,15 @@
     <button
       type="button"
       data-bs-toggle="modal"
-      data-bs-target="#myModal"
+      data-bs-target="#channelModal"
       class="btn btn-outline-primary"
+      @click="openModal"
     >
       Add Channel
     </button>
 
     <!-- Modal -->
-    <div id="myModal" class="modal fade">
+    <div id="channelModal" class="modal fade">
       <div class="modal-dialog modal-dialog-centerd">
         <div class="modal-content">
           <div class="modal-header">
@@ -45,7 +46,13 @@
             >
               Cancel
             </button>
-            <button type="button" class="btn btn-primary">Add Channel</button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-bs-dismiss="modal"
+            >
+              Add Channel
+            </button>
           </div>
         </div>
       </div>
@@ -58,7 +65,19 @@ import { mapState, mapMutations } from "vuex";
 
 export default {
   name: "Channels",
+  data() {
+    return {
+      new_channel: "",
+      errors: []
+    };
+  },
+  computed: {},
+  methods: {}
 };
 </script>
 
-<style scoped></style>
+<style>
+.modal-backdrop {
+  z-index: -1;
+}
+</style>
