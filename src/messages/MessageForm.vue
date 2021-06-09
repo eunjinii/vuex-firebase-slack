@@ -47,5 +47,9 @@ export default {
   button {
     height: 50px;
   }
+
+  input:focus {
+    outline: none;
+  }
 }
 </style>

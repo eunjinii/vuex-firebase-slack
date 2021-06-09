@@ -36,7 +36,7 @@ export default {
   width: 33.5%;
   height: 100%;
   background: #000;
-  overflow: scroll;
+  overflow-x: hidden;
 }
 
 .content {
