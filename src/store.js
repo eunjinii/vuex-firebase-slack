@@ -5,19 +5,12 @@ Vue.use(Vuex);
 
 const state = {
   currentUser: {},
-  isOpenAddChannelModal: false,
   currentChannel: null
 };
 
 const mutations = {
   SET_USER(state, user) {
     state.currentUser = user;
-  },
-  OPEN_ADD_CHANNEL_MODAL(state) {
-    state.isOpenAddChannelModal = true;
-  },
-  CLOSE_ADD_CHANNEL_MODAL(state) {
-    state.isOpenAddChannelModal = false;
   },
   SET_CURRENT_CHANNEL(state, channel) {
     state.currentChannel = channel;
