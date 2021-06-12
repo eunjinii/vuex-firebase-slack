@@ -10,9 +10,14 @@
             type="text"
             class="form-control mt-3"
             autofocus
+            v-model.trim="message"
           />
           <div class="input-group-append">
-            <button class="btn btn-primary mt-3" type="button">
+            <button
+              class="btn btn-primary mt-3"
+              type="button"
+              @click.prevent="sendMessage"
+            >
               &nbsp; Send &nbsp;
             </button>
           </div>
@@ -26,8 +31,49 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import database from "firebase/database";
+
 export default {
-  name: "MessageForm"
+  name: "MessageForm",
+  data() {
+    return {
+      message: "",
+      errors: []
+    };
+  },
+  computed: {
+    ...mapGetters(["currentChannel", "currentUser"])
+  },
+  methods: {
+    sendMessage() {
+      let newMessage = {
+        content: this.message,
+        timestamp: firebase.database.ServerValue.TIMESTAMP,
+        user: {
+          name: this.currentUser.displayName,
+          avatar: this.currentUser.photoURL,
+          id: this.currentUser.uid
+        }
+      };
+
+      if (this.currentChannel !== null) {
+        if (this.message.length > 0) {
+          this.$parent.messagesRef
+            .child(this.currentChannel.id)
+            .push()
+            .set(newMessage)
+            .then(() => {
+              //
+            })
+            .catch(() => {
+              this.errors.push(error.message);
+            });
+          this.message = "";
+        }
+      }
+    }
+  }
 };
 </script>
 
