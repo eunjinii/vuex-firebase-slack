@@ -17,19 +17,22 @@
     <button @click="logout" class="btn btn-outline-light">Logout</button>
 
     <hr style="border: 1px solid #ccc;" />
-
     <Channels />
+    <hr style="border: 1px solid #ccc;" />
+    <Users />
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import Channels from "./Channels";
+import Users from "./Users";
 
 export default {
   name: "Sidebar",
   components: {
-    Channels
+    Channels,
+    Users
   },
   computed: {
     ...mapGetters(["currentUser"])
