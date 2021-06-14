@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="messageform">
-      <form>
+      <form @submit.prevent="sendMessage">
         <div class="input-group mb-3">
           <input
             name="message"
@@ -42,6 +42,11 @@ export default {
       errors: []
     };
   },
+  props: {
+    callback: {
+      type: Function
+    }
+  },
   computed: {
     ...mapGetters(["currentChannel", "currentUser"])
   },
@@ -64,7 +69,7 @@ export default {
             .push()
             .set(newMessage)
             .then(() => {
-              //
+              this.$nextTick(() => this.$emit("callback"));
             })
             .catch(() => {
               this.errors.push(error.message);

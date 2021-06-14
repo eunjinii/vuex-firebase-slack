@@ -2,7 +2,7 @@
   <div>
     <div class="mt-3">
       <div v-for="(message, index) in messages" :key="index">
-        <div class="media">
+        <div class="media message-wrap">
           <img
             :src="message.user.avatar"
             height="50"
@@ -48,8 +48,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.self-message {
-  border-left: 5px solid red;
-  padding: 0 5px;
+.mt-3 {
+  padding-bottom: 80px;
+
+  .message-wrap {
+    display: flex;
+
+    .media-body {
+      margin-left: 12px;
+
+      .self-message {
+        border-left: 5px solid red;
+        padding: 0 5px;
+      }
+    }
+  }
 }
 </style>

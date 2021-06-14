@@ -1,7 +1,7 @@
 <template>
   <div>
-    <SingleMessage :messages="messages" />
-    <MessageForm />
+    <SingleMessage :messages="messages" ref="messagesContainer" />
+    <MessageForm @callback="nextTickCallback" />
   </div>
 </template>
 
@@ -47,6 +47,13 @@ export default {
       if (this.channel !== null) {
         this.messagesRef.child(this.channel.id).off();
       }
+    },
+    nextTickCallback() {
+      console.log(this.$refs.messagesContainer.scrollHeight); // undefined
+      this.$refs.messagesContainer.scrollTo({
+        top: this.$refs.messagesContainer.scrollHeight,
+        behavior: "smooth"
+      });
     }
   },
   beforeDestroy() {
