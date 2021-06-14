@@ -5,7 +5,8 @@ Vue.use(Vuex);
 
 const state = {
   currentUser: {},
-  currentChannel: null
+  currentChannel: null,
+  messagesScrollHeight: 0
 };
 
 const mutations = {
@@ -14,6 +15,9 @@ const mutations = {
   },
   SET_CURRENT_CHANNEL(state, channel) {
     state.currentChannel = channel;
+  },
+  SET_MESSAGES_SCROLL_HEIGHT(state, height) {
+    state.messagesScrollHeight = height;
   }
 };
 
@@ -23,6 +27,9 @@ const actions = {
   },
   setCurrentChannel({ commit }, channel) {
     commit("SET_CURRENT_CHANNEL", channel);
+  },
+  setMessagesScrollHeight({ commit }, height) {
+    commit("SET_MESSAGES_SCROLL_HEIGHT", height);
   }
 };
 

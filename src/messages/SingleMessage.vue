@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="mt-3">
+    <div class="mt-3" ref="messageWrapper">
       <div v-for="(message, index) in messages" :key="index">
         <div class="media message-wrap">
           <img
@@ -26,15 +26,17 @@
 
 <script>
 import moment from "moment";
-import { mapGetters } from "vuex";
+import { mapState, mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "SingleMessage",
   props: ["messages"],
   computed: {
+    ...mapState(["messagesScrollHeight"]),
     ...mapGetters(["currentUser"])
   },
   methods: {
+    ...mapMutations(["setMessagesScrollHeight"]),
     selfMessage(user) {
       return user.id === this.currentUser.uid;
     }
@@ -43,6 +45,13 @@ export default {
     fromNow(value) {
       return moment(value).fromNow();
     }
+  },
+  mounted() {
+    const height = this.$refs.messageWrapper.scrollHeight;
+    setTimeout(() => {
+      this.$store.commit("setMessagesScrollHeight", height);
+    });
+    console.log(this.messagesScrollHeight);
   }
 };
 </script>
