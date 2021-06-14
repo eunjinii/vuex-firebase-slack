@@ -7,7 +7,7 @@
         </div>
 
         <div class="col-me-8 content">
-          <Messages />
+          <Messages @scrollCallback="scrollCallback" />
         </div>
       </div>
     </div>
@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import Sidebar from "../sidebar/Sidebar";
 import Messages from "../messages/Messages";
 
@@ -23,6 +24,18 @@ export default {
   components: {
     Sidebar,
     Messages
+  },
+  computed: {
+    ...mapState(["messagesScrollHeight"])
+  },
+  methods: {
+    scrollCallback() {
+      console.log("Chat: ", this.messagesScrollHeight);
+      window.scrollTo({
+        top: this.messagesScrollHeight
+        // behavior: "smooth"
+      });
+    }
   }
 };
 </script>

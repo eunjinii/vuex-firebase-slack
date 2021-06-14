@@ -26,17 +26,19 @@
 
 <script>
 import moment from "moment";
-import { mapState, mapGetters, mapMutations } from "vuex";
+import { mapState, mapGetters, mapActions } from "vuex";
 
 export default {
   name: "SingleMessage",
-  props: ["messages"],
+  props: {
+    messages: Array
+  },
   computed: {
-    ...mapState(["messagesScrollHeight"]),
+    ...mapState(["messagesScrollHeight", "isMessagesLoading"]),
     ...mapGetters(["currentUser"])
   },
   methods: {
-    ...mapMutations(["setMessagesScrollHeight"]),
+    ...mapActions(["setMessagesScrollHeight"]),
     selfMessage(user) {
       return user.id === this.currentUser.uid;
     }
@@ -46,12 +48,18 @@ export default {
       return moment(value).fromNow();
     }
   },
+  watch: {},
   mounted() {
-    const height = this.$refs.messageWrapper.scrollHeight;
+    console.log(this.isMessagesLoading);
+
     setTimeout(() => {
-      this.$store.commit("setMessagesScrollHeight", height);
-    });
-    console.log(this.messagesScrollHeight);
+      const height = this.$refs.messageWrapper.scrollHeight;
+      this.$store.dispatch("setMessagesScrollHeight", height);
+      // FIXME: mounted 때는 0px이고 코드 수정해서 update 돼야만 12xx 나옴
+      console.log("SingleMessage: ", this.messagesScrollHeight);
+
+      this.$emit("callback");
+    }, 2000);
   }
 };
 </script>

@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import database from "firebase/database";
 
 export default {
@@ -43,14 +43,15 @@ export default {
     };
   },
   props: {
-    callback: {
-      type: Function
-    }
+    // callback: {
+    //   type: Function
+    // }
   },
   computed: {
     ...mapGetters(["currentChannel", "currentUser"])
   },
   methods: {
+    ...mapActions(["showMessageLoading", "hideMessageLoading"]),
     sendMessage() {
       let newMessage = {
         content: this.message,
@@ -64,11 +65,13 @@ export default {
 
       if (this.currentChannel !== null) {
         if (this.message.length > 0) {
+          this.showMessageLoading();
           this.$parent.messagesRef
             .child(this.currentChannel.id)
             .push()
             .set(newMessage)
             .then(() => {
+              this.hideMessageLoading();
               this.$nextTick(() => this.$emit("callback"));
             })
             .catch(() => {

@@ -1,12 +1,12 @@
 <template>
   <div>
-    <SingleMessage :messages="messages" ref="messagesContainer" />
-    <MessageForm @callback="nextTickCallback" />
+    <SingleMessage :messages="messages" @callback="scrollCallback" />
+    <MessageForm @callback="scrollCallback" />
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapState, mapGetters } from "vuex";
 import SingleMessage from "./SingleMessage";
 import MessageForm from "./MessageForm";
 import database from "firebase/database";
@@ -17,6 +17,9 @@ export default {
     SingleMessage,
     MessageForm
   },
+  props: {
+    // scrollCallback: Function
+  },
   data() {
     return {
       messagesRef: firebase.database().ref("messages"),
@@ -25,6 +28,7 @@ export default {
     };
   },
   computed: {
+    ...mapState(["messagesScrollHeight"]),
     ...mapGetters(["currentChannel"])
   },
   watch: {
@@ -48,13 +52,15 @@ export default {
         this.messagesRef.child(this.channel.id).off();
       }
     },
-    nextTickCallback() {
-      console.log(this.$refs.messagesContainer.scrollHeight); // undefined
-      this.$refs.messagesContainer.scrollTo({
-        top: this.$refs.messagesContainer.scrollHeight,
-        behavior: "smooth"
-      });
+    scrollCallback() {
+      this.$emit("scrollCallback");
     }
+  },
+  mounted() {
+    // this.$refs.messagesContainer.scrollTo({
+    //   top: this.messagesScrollHeight,
+    //   behavior: "smooth"
+    // });
   },
   beforeDestroy() {
     this.detatchListeners();
