@@ -27,9 +27,16 @@
 import { mapGetters } from "vuex";
 import Channels from "./Channels";
 import Users from "./Users";
+import auth from "firebase/auth";
+import database from "firebase/database";
 
 export default {
   name: "Sidebar",
+  data() {
+    return {
+      presenceRef: firebase.database().ref("presence")
+    };
+  },
   components: {
     Channels,
     Users
@@ -39,6 +46,7 @@ export default {
   },
   methods: {
     logout() {
+      this.presenceRef.child(this.currentUser.uid).remove();
       firebase.auth().signOut();
       this.$store.dispatch("setUser", null);
       this.$router.push("/login");
