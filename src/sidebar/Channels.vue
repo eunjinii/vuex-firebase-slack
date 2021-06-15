@@ -91,14 +91,14 @@ export default {
       errors: [],
       channelsRef: firebase.database().ref("channels"),
       channels: [],
-      channel: null
+      channel: null,
     };
   },
   computed: {
     ...mapGetters(["currentChannel"]),
     hasErrors() {
       return this.errors.length > 0;
-    }
+    },
   },
   methods: {
     ...mapActions(["setCurrentChannel"]),
@@ -107,9 +107,6 @@ export default {
         document.getElementById("channelModal")
       );
       channelModal.show();
-    },
-    closeModal() {
-      // FIXME: 닫기 로직 완성
     },
     addChannel() {
       this.errors = [];
@@ -126,7 +123,7 @@ export default {
           this.new_channel = "";
           this.closeModal();
         })
-        .catch(e => {
+        .catch((e) => {
           this.errors.push(e.message);
         });
     },
@@ -137,7 +134,7 @@ export default {
       this.setCurrentChannel(channel);
     },
     addListeners() {
-      this.channelsRef.on("child_added", snapshot => {
+      this.channelsRef.on("child_added", (snapshot) => {
         // firebase listens for changes
         this.channels.push(snapshot.val());
 
@@ -150,14 +147,14 @@ export default {
     },
     detachListeners() {
       this.channelsRef.off();
-    }
+    },
   },
   mounted() {
     this.addListeners();
   },
   beforeDestroy() {
     this.detachListeners();
-  }
+  },
 };
 </script>
 
