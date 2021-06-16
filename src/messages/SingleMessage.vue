@@ -33,8 +33,13 @@ export default {
   props: {
     messages: Array
   },
+  data() {
+    return {
+      scrollHeight: 0
+    };
+  },
   computed: {
-    ...mapState(["messagesScrollHeight", "isMessagesLoading"]),
+    ...mapState(["messagesScrollHeight", "isLoading"]),
     ...mapGetters(["currentUser"])
   },
   methods: {
@@ -48,18 +53,27 @@ export default {
       return moment(value).fromNow();
     }
   },
-  watch: {},
+  watch: {
+    scrollHeight: function(newVal) {
+      this.scrollHeight = newVal;
+    }
+  },
+  computed: {
+    messageHeight() {
+      return this.$refs.messageWrapper.scrollHeight;
+    }
+  },
   mounted() {
-    console.log(this.isMessagesLoading);
+    console.log(this.isLoading);
 
-    setTimeout(() => {
-      const height = this.$refs.messageWrapper.scrollHeight;
-      this.$store.dispatch("setMessagesScrollHeight", height);
-      // FIXME: mounted 때는 0px이고 코드 수정해서 update 돼야만 12xx 나옴
-      console.log("SingleMessage: ", this.messagesScrollHeight);
+    // setTimeout(() => {
+    // this.scrollHeight = this.$refs.messageWrapper.scrollHeight;
+    this.$emit("scrollHeight", this.$refs.messageWrapper.scrollHeight);
+    // FIXME: mounted 때는 0px이고 코드 수정해서 update 돼야만 12xx 나옴
+    console.log("SingleMessage: ", this.messagesScrollHeight);
 
-      this.$emit("callback");
-    }, 2000);
+    // this.$emit("scrollToEnd");
+    // }, 2000);
   }
 };
 </script>

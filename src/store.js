@@ -8,7 +8,7 @@ const state = {
   currentChannel: null,
   messagesScrollHeight: 0,
   scrollBottomCallback: null,
-  isMessagesLoading: false
+  isLoading: false
 };
 
 const mutations = {
@@ -24,11 +24,11 @@ const mutations = {
   SET_SCROLL_BOTTOM_CALLBACK(state, callback) {
     state.scrollBottomCallback = callback;
   },
-  SHOW_MESSAGE_LOADING(state) {
-    state.isMessagesLoading = true;
+  SHOW_LOADING(state) {
+    state.isLoading = true;
   },
-  HIDE_MESSAGE_LOADING(state) {
-    state.isMessagesLoading = false;
+  HIDE_LOADING(state) {
+    state.isLoading = false;
   }
 };
 
@@ -45,11 +45,11 @@ const actions = {
   setScrollBottomCallback({ commit }, callback) {
     commit("SET_SCROLL_BOTTOM_CALLBACK", callback);
   },
-  showMessageLoading({ commit }) {
-    commit("SHOW_MESSAGE_LOADING");
+  showLoading({ commit }) {
+    commit("SHOW_LOADING");
   },
-  hideMessageLoading({ commit }) {
-    commit("HIDE_MESSAGE_LOADING");
+  hideLoading({ commit }) {
+    commit("HIDE_LOADING");
   }
 };
 

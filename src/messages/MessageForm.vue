@@ -42,16 +42,11 @@ export default {
       errors: []
     };
   },
-  props: {
-    // callback: {
-    //   type: Function
-    // }
-  },
   computed: {
     ...mapGetters(["currentChannel", "currentUser"])
   },
   methods: {
-    ...mapActions(["showMessageLoading", "hideMessageLoading"]),
+    ...mapActions(["showLoading", "hideLoading"]),
     sendMessage() {
       let newMessage = {
         content: this.message,
@@ -65,14 +60,14 @@ export default {
 
       if (this.currentChannel !== null) {
         if (this.message.length > 0) {
-          this.showMessageLoading();
+          this.showLoading();
           this.$parent.messagesRef
             .child(this.currentChannel.id)
             .push()
             .set(newMessage)
             .then(() => {
-              this.hideMessageLoading();
-              this.$nextTick(() => this.$emit("callback"));
+              this.hideLoading();
+              this.$nextTick(() => this.$emit("scrollToEnd"));
             })
             .catch(() => {
               this.errors.push(error.message);

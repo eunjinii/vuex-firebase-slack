@@ -1,12 +1,16 @@
 <template>
-  <div>
-    <SingleMessage :messages="messages" @callback="scrollCallback" />
-    <MessageForm @callback="scrollCallback" />
+  <div ref="messageWrapper">
+    <SingleMessage
+      :messages="messages"
+      @scrollToEnd="scrollToEnd"
+      @setScrollHeightTest="setScrollHeightTest"
+    />
+    <MessageForm @scrollToEnd="scrollToEnd" />
   </div>
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
+import { mapState, mapGetters, mapActions } from "vuex";
 import SingleMessage from "./SingleMessage";
 import MessageForm from "./MessageForm";
 import database from "firebase/database";
@@ -17,14 +21,12 @@ export default {
     SingleMessage,
     MessageForm
   },
-  props: {
-    // scrollCallback: Function
-  },
   data() {
     return {
       messagesRef: firebase.database().ref("messages"),
       messages: [],
-      channel: ""
+      channel: "",
+      scrollHeight: 0
     };
   },
   computed: {
@@ -40,30 +42,34 @@ export default {
     }
   },
   methods: {
+    ...mapActions(["setMessagesScrollHeight", "showLoading", "hideLoading"]),
     addListeners() {
       this.messagesRef
         .child(this.currentChannel.id)
         .on("child_added", snapshot => {
           this.messages.push(snapshot.val());
+          this.hideLoading();
         });
     },
-    detatchListeners() {
+    detachListeners() {
       if (this.channel !== null) {
         this.messagesRef.child(this.channel.id).off();
       }
     },
-    scrollCallback() {
-      this.$emit("scrollCallback");
+    scrollToEnd() {
+      window.scrollTo({ top: this.messagesScrollHeight });
+    },
+    setScrollHeightTest(scrollHeight) {
+      this.$store.dispatch("setMessagesScrollHeight", scrollHeight);
     }
   },
   mounted() {
-    // this.$refs.messagesContainer.scrollTo({
-    //   top: this.messagesScrollHeight,
-    //   behavior: "smooth"
-    // });
+    console.log("messages: ", this.messagesScrollHeight);
+    // this.showLoading();
+    this.scrollToEnd();
   },
   beforeDestroy() {
-    this.detatchListeners();
+    this.detachListeners();
   }
 };
 </script>

@@ -7,7 +7,7 @@
         </div>
 
         <div class="col-me-8 content">
-          <Messages @scrollCallback="scrollCallback" />
+          <Messages />
         </div>
       </div>
     </div>
@@ -26,16 +26,16 @@ export default {
     Messages
   },
   computed: {
-    ...mapState(["messagesScrollHeight"])
+    // ...mapState(["messagesScrollHeight"])
   },
   methods: {
-    scrollCallback() {
-      console.log("Chat: ", this.messagesScrollHeight);
-      window.scrollTo({
-        top: this.messagesScrollHeight
-        // behavior: "smooth"
-      });
-    }
+    // scrollCallback() {
+    // console.log("Chat: ", this.messagesScrollHeight);
+    // window.scrollTo({
+    //   top: this.messagesScrollHeight
+    //   // behavior: "smooth"
+    // });
+    // }
   }
 };
 </script>
