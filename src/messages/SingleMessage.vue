@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="mt-3" ref="messageWrapper">
+    <div class="mt-3">
       <div v-for="(message, index) in messages" :key="index">
         <div class="media message-wrap">
           <img
@@ -35,7 +35,7 @@ export default {
   },
   data() {
     return {
-      scrollHeight: 0
+      // scrollHeight: 0
     };
   },
   computed: {
@@ -53,27 +53,13 @@ export default {
       return moment(value).fromNow();
     }
   },
-  watch: {
-    scrollHeight: function(newVal) {
-      this.scrollHeight = newVal;
-    }
-  },
-  computed: {
-    messageHeight() {
-      return this.$refs.messageWrapper.scrollHeight;
-    }
-  },
   mounted() {
     console.log(this.isLoading);
 
-    // setTimeout(() => {
     // this.scrollHeight = this.$refs.messageWrapper.scrollHeight;
-    this.$emit("scrollHeight", this.$refs.messageWrapper.scrollHeight);
+    // this.$emit("scrollHeight", this.$refs.messageWrapper.scrollHeight);
     // FIXME: mounted 때는 0px이고 코드 수정해서 update 돼야만 12xx 나옴
     console.log("SingleMessage: ", this.messagesScrollHeight);
-
-    // this.$emit("scrollToEnd");
-    // }, 2000);
   }
 };
 </script>

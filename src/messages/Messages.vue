@@ -65,7 +65,9 @@ export default {
   },
   mounted() {
     console.log("messages: ", this.messagesScrollHeight);
-    // this.showLoading();
+
+    this.scrollHeight = this.$refs.messageWrapper.scrollHeight;
+    this.$emit("scrollHeight", this.$refs.messageWrapper.scrollHeight);
     this.scrollToEnd();
   },
   beforeDestroy() {
